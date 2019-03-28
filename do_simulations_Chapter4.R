@@ -40,7 +40,7 @@ legend("center", cex=3, legend=c("T=0, L=0", "T=0, L=1", "T=1, L=0", "T=1, L=1")
 dev.off()
 
 # SCENARIO: DEFAULT
-n.reps.default <- 5
+n.reps.default <- 50
 n.training.vec.default <- c(50, 100, 200, 500, 1000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.default))
 colnames(mat.ABR) <- n.training.vec.default
@@ -478,7 +478,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "piecewise.cubic.interaction.added.c
 
 # SCENARIO: NOISE.ADDED.CONTINUOUS
 n.reps.noise.added.continuous <- 50
-vec.shift.noise.added.continuous <- c("min", "10") # c("none", "min", "10", "50")
+vec.shift.noise.added.continuous <- c("50") # c("none", "min", "10", "50")
 n.training.vec.noise.added.continuous <- c(200, 500, 1000, 2000, 5000, 10000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.noise.added.continuous))
 colnames(mat.ABR) <- n.training.vec.noise.added.continuous
@@ -511,7 +511,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "noise.added.continuous_mat_mean_ABR
 
 # SCENARIO: HIGH.DIMENSIONAL.NOISE.ADDED.CONTINUOUS
 n.reps.high.dimensional.noise.added.continuous <- 50
-vec.shift.high.dimensional.noise.added.continuous <- c("min", "10")
+vec.shift.high.dimensional.noise.added.continuous <- c("50")
 n.training.vec.high.dimensional.noise.added.continuous <- c(500, 1000, 2000, 5000, 10000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.high.dimensional.noise.added.continuous))
 colnames(mat.ABR) <- n.training.vec.high.dimensional.noise.added.continuous
@@ -543,7 +543,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "high.dimensional.noise.added.contin
 
 # SCENARIO: HIGH.DIMENSIONAL.NOISE.AND.PROGNOSTIC.ADDED.CONTINUOUS
 n.reps.high.dimensional.noise.and.prognostic.added.continuous <- 50
-vec.shift.high.dimensional.noise.and.prognostic.added.continuous <- c("min", "10") #c("none", "min", "10", "50")
+vec.shift.high.dimensional.noise.and.prognostic.added.continuous <- c("50") #c("none", "min", "10", "50")
 n.training.vec.high.dimensional.noise.and.prognostic.added.continuous <- c(500, 1000, 2000, 5000, 10000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.high.dimensional.noise.and.prognostic.added.continuous))
 colnames(mat.ABR) <- n.training.vec.high.dimensional.noise.and.prognostic.added.continuous
@@ -733,7 +733,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "nonlinear.interactions.piecewise.co
 
 # SCENARIO: DEFAULT.PIECEWISE.CONSTANT.CONTINUOUS
 n.reps.default.piecewise.constant.continuous <- 50
-vec.shift.default.piecewise.constant.continuous <- c("min", "10") #c("none", "min", "10", "50")
+vec.shift.default.piecewise.constant.continuous <- c("50") #c("none", "min", "10", "50")
 n.training.vec.default.piecewise.constant.continuous <- c(50, 100, 200, 500, 1000, 2000, 5000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.default.piecewise.constant.continuous))
 colnames(mat.ABR) <- n.training.vec.default.piecewise.constant.continuous
@@ -765,7 +765,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "default.piecewise.constant.continuo
 
 # SCENARIO: TWO.WAY.INTERACTIONS.PIECEWISE.CONSTANT.CONTINUOUS
 n.reps.two.way.interactions.piecewise.constant.continuous <- 50
-vec.shift.two.way.interactions.piecewise.constant.continuous <- c("min", "10")  #c("none", "min", "10", "50")
+vec.shift.two.way.interactions.piecewise.constant.continuous <- c("50")  #c("none", "min", "10", "50")
 n.training.vec.two.way.interactions.piecewise.constant.continuous <- c(50, 100, 200, 500, 1000, 2000, 5000, 10000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.two.way.interactions.piecewise.constant.continuous))
 colnames(mat.ABR) <- n.training.vec.two.way.interactions.piecewise.constant.continuous
@@ -797,7 +797,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "two.way.interactions.piecewise.cons
 
 # SCENARIO: THREE.WAY.INTERACTIONS.PIECEWISE.CONSTANT.CONTINUOUS
 n.reps.three.way.interactions.piecewise.constant.continuous <- 50
-vec.shift.three.way.interactions.piecewise.constant.continuous <- c("min", "10")  #c("none", "min", "10", "50")
+vec.shift.three.way.interactions.piecewise.constant.continuous <- c("50")  #c("none", "min", "10", "50")
 n.training.vec.three.way.interactions.piecewise.constant.continuous <- c(50, 100, 200, 500, 1000, 2000, 5000, 10000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.three.way.interactions.piecewise.constant.continuous))
 colnames(mat.ABR) <- n.training.vec.three.way.interactions.piecewise.constant.continuous
@@ -830,7 +830,7 @@ write.csv(mat.ABR, file=paste0(results.dir, "three.way.interactions.piecewise.co
 
 # SCENARIO: NONLINEAR.INTERACTIONS.PIECEWISE.CONSTANT.CONTINUOUS
 n.reps.nonlinear.interactions.piecewise.constant.continuous <- 50
-vec.shift.nonlinear.interactions.piecewise.constant.continuous <- c("min", "10")  #c("none", "min", "10", "50")
+vec.shift.nonlinear.interactions.piecewise.constant.continuous <- c("50")  #c("none", "min", "10", "50")
 n.training.vec.nonlinear.interactions.piecewise.constant.continuous <- c(50, 100, 200, 500, 1000, 2000, 5000, 10000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.nonlinear.interactions.piecewise.constant.continuous))
 colnames(mat.ABR) <- n.training.vec.nonlinear.interactions.piecewise.constant.continuous
