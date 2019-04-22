@@ -40,7 +40,7 @@ legend("center", cex=3, legend=c("T=0, L=0", "T=0, L=1", "T=1, L=0", "T=1, L=1")
 dev.off()
 
 # SCENARIO: DEFAULT
-n.reps.default <- 50
+n.reps.default <- 5
 n.training.vec.default <- c(50, 100, 200, 500, 1000)
 mat.ABR <- matrix(NA, nrow=length(vec.approaches)+3, ncol=length(n.training.vec.default))
 colnames(mat.ABR) <- n.training.vec.default

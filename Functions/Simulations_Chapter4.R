@@ -271,10 +271,17 @@ DoOneSimulation <- function(scenario, n.training, n.test,
                                            names.influencing.rule=names.influencing.rule,
                                            propensity.method="logistic.regression",
                                            bootstrap.CI=bootstrap.CI)
-        mat.summary[one.approach, "prop.pos"] <- evaluate.one.rule$n.test.positives / nrow(test.set$one.df)
-        mat.summary[one.approach, "ATE.pos"] <- evaluate.one.rule$ATE.test.positives
-        mat.summary[one.approach, "ATE.neg"] <- evaluate.one.rule$ATE.test.negatives
-        mat.summary[one.approach, "ABR"] <- evaluate.one.rule$ABR
+        #mat.summary[one.approach, "prop.pos"] <- evaluate.one.rule$n.test.positives / nrow(test.set$one.df)
+        #mat.summary[one.approach, "ATE.pos"] <- evaluate.one.rule$ATE.test.positives
+        #mat.summary[one.approach, "ATE.neg"] <- evaluate.one.rule$ATE.test.negatives
+        #mat.summary[one.approach, "ABR"] <- evaluate.one.rule$ABR
+        
+        mat.summary[one.approach, "prop.pos"] <- evaluate.one.rule$summaries["estimated.rule", "n.positives"] / nrow(test.set$one.df)
+        mat.summary[one.approach, "ATE.pos"] <- evaluate.one.rule$summaries["estimated.rule", "ATE.positives"]
+        mat.summary[one.approach, "ATE.neg"] <- evaluate.one.rule$summaries["estimated.rule", "ATE.negatives"]
+        mat.summary[one.approach, "ABR"] <- evaluate.one.rule$summaries["estimated.rule", "ABR"]
+        
+        
         one.result.two.by.two <- SummarizeTable(two.by.two.table)
         mat.summary[one.approach, "exact.ATE.pos"] <- predicting.with.oracle$one.estimated.rule.evaluation$ATE.positives
         mat.summary[one.approach, "exact.ATE.neg"] <- predicting.with.oracle$one.estimated.rule.evaluation$ATE.negatives
@@ -294,10 +301,9 @@ DoOneSimulation <- function(scenario, n.training, n.test,
                                                      names.influencing.treatment=names.influencing.treatment,
                                                      names.influencing.rule=names.influencing.rule,
                                                      propensity.method="logistic.regression")
-    
-    mat.summary["optimal.rule", "ATE.pos"] <- one.comparison.rules$evaluate.optimal.rule$ATE.test.positives
-    mat.summary["optimal.rule", "ATE.neg"] <- one.comparison.rules$evaluate.optimal.rule$ATE.test.negatives
-    mat.summary["optimal.rule", "ABR"] <- one.comparison.rules$evaluate.optimal.rule$ABR
+    mat.summary["optimal.rule", "ATE.pos"] <- one.comparison.rules$evaluate.optimal.rule["ATE.positives"]
+    mat.summary["optimal.rule", "ATE.neg"] <- one.comparison.rules$evaluate.optimal.rule["ATE.negatives"]
+    mat.summary["optimal.rule", "ABR"] <- one.comparison.rules$evaluate.optimal.rule["ABR"]
     mat.summary["optimal.rule", "prop.pos"] <- predicting.with.oracle$one.optimal.rule.evaluation$prop.positives
     mat.summary["optimal.rule", "exact.ATE.pos"] <- predicting.with.oracle$one.optimal.rule.evaluation$ATE.positives
     mat.summary["optimal.rule", "exact.ATE.neg"] <- predicting.with.oracle$one.optimal.rule.evaluation$ATE.negatives
@@ -311,9 +317,9 @@ DoOneSimulation <- function(scenario, n.training, n.test,
     predicting.with.oracle.treat.none <- GetOptimalRule(scenario=scenario, B=B.treat.none, use.prespecified.data=TRUE,
                                                    X=test.set$one.design$X, T=test.set$one.design$T, L=test.set$one.design$L,
                                                    unif.min=0, unif.max=2, noise.mu=0, noise.sigma=1)
-    mat.summary["treat.none", "ATE.pos"] <- one.comparison.rules$evaluate.treat.none$ATE.test.positives
-    mat.summary["treat.none", "ATE.neg"] <- one.comparison.rules$evaluate.treat.none$ATE.test.negatives
-    mat.summary["treat.none", "ABR"] <- one.comparison.rules$evaluate.treat.none$ABR
+    mat.summary["treat.none", "ATE.pos"] <- one.comparison.rules$evaluate.treat.none["ATE.positives"]
+    mat.summary["treat.none", "ATE.neg"] <- one.comparison.rules$evaluate.treat.none["ATE.negatives"]
+    mat.summary["treat.none", "ABR"] <- one.comparison.rules$evaluate.treat.none["ABR"]
     mat.summary["treat.none", "prop.pos"] <- predicting.with.oracle.treat.none$one.estimated.rule.evaluation$prop.positives
     mat.summary["treat.none", "exact.ATE.pos"] <- predicting.with.oracle.treat.none$one.estimated.rule.evaluation$ATE.positives
     mat.summary["treat.none", "exact.ATE.neg"] <- predicting.with.oracle.treat.none$one.estimated.rule.evaluation$ATE.negatives
@@ -329,9 +335,9 @@ DoOneSimulation <- function(scenario, n.training, n.test,
     predicting.with.oracle.treat.all <- GetOptimalRule(scenario=scenario, B=B.treat.all, use.prespecified.data=TRUE,
                                                    X=test.set$one.design$X, T=test.set$one.design$T, L=test.set$one.design$L,
                                                    unif.min=0, unif.max=2, noise.mu=0, noise.sigma=1)
-    mat.summary["treat.all", "ATE.pos"] <- one.comparison.rules$evaluate.treat.all$ATE.test.positives
-    mat.summary["treat.all", "ATE.neg"] <- one.comparison.rules$evaluate.treat.all$ATE.test.negatives
-    mat.summary["treat.all", "ABR"] <- one.comparison.rules$evaluate.treat.all$ABR
+    mat.summary["treat.all", "ATE.pos"] <- one.comparison.rules$evaluate.treat.all["ATE.positives"]
+    mat.summary["treat.all", "ATE.neg"] <- one.comparison.rules$evaluate.treat.all["ATE.negatives"]
+    mat.summary["treat.all", "ABR"] <- one.comparison.rules$evaluate.treat.all["ABR"]
     mat.summary["treat.all", "prop.pos"] <- predicting.with.oracle.treat.all$one.estimated.rule.evaluation$prop.positives
     mat.summary["treat.all", "exact.ATE.pos"] <- predicting.with.oracle.treat.all$one.estimated.rule.evaluation$ATE.positives
     mat.summary["treat.all", "exact.ATE.neg"] <- predicting.with.oracle.treat.all$one.estimated.rule.evaluation$ATE.negatives
@@ -651,40 +657,42 @@ GetComparisonRules <- function(scenario,
                                       names.influencing.treatment=names.influencing.treatment,
                                       names.influencing.rule=names.influencing.rule,
                                       propensity.method=propensity.method,
+                                      show.treat.all=TRUE,
+                                      show.treat.none=TRUE,
                                       bootstrap.CI=bootstrap.CI)
-    # treating all
-    B.treat.all <- rep(1, nrow(test.df))
-    evaluate.treat.all <- EvaluateRule(data=test.df,
-                                        BuildRule.object=NULL,
-                                        B=B.treat.all,
-                                        study.design=study.design,
-                                        name.outcome=name.outcome,
-                                        type.outcome=type.outcome,
-                                        desirable.outcome=desirable.outcome,
-                                        clinical.threshold=0, 
-                                        name.treatment=name.treatment,
-                                        names.influencing.treatment=names.influencing.treatment,
-                                        names.influencing.rule=names.influencing.rule,
-                                        propensity.method=propensity.method,
-                                        bootstrap.CI=bootstrap.CI)
-    # treating none
-    B.treat.none <- rep(0, nrow(test.df))
-    evaluate.treat.none <- EvaluateRule(data=test.df,
-                                        BuildRule.object=NULL,
-                                        B=B.treat.none,
-                                        study.design=study.design,
-                                        name.outcome=name.outcome,
-                                        type.outcome=type.outcome,
-                                        desirable.outcome=desirable.outcome,
-                                        clinical.threshold=0, 
-                                        name.treatment=name.treatment,
-                                        names.influencing.treatment=names.influencing.treatment,
-                                        names.influencing.rule=names.influencing.rule,
-                                        propensity.method=propensity.method,
-                                        bootstrap.CI=bootstrap.CI)
-    return(list("evaluate.optimal.rule"=evaluate.optimal.rule,
-                  "evaluate.treat.all"=evaluate.treat.all,
-                   "evaluate.treat.none"=evaluate.treat.none))
+    ## # treating all
+    ## B.treat.all <- rep(1, nrow(test.df))
+    ## evaluate.treat.all <- EvaluateRule(data=test.df,
+    ##                                     BuildRule.object=NULL,
+    ##                                     B=B.treat.all,
+    ##                                     study.design=study.design,
+    ##                                     name.outcome=name.outcome,
+    ##                                     type.outcome=type.outcome,
+    ##                                     desirable.outcome=desirable.outcome,
+    ##                                     clinical.threshold=0, 
+    ##                                     name.treatment=name.treatment,
+    ##                                     names.influencing.treatment=names.influencing.treatment,
+    ##                                     names.influencing.rule=names.influencing.rule,
+    ##                                     propensity.method=propensity.method,
+    ##                                     bootstrap.CI=bootstrap.CI)
+    ## # treating none
+    ## B.treat.none <- rep(0, nrow(test.df))
+    ## evaluate.treat.none <- EvaluateRule(data=test.df,
+    ##                                     BuildRule.object=NULL,
+    ##                                     B=B.treat.none,
+    ##                                     study.design=study.design,
+    ##                                     name.outcome=name.outcome,
+    ##                                     type.outcome=type.outcome,
+    ##                                     desirable.outcome=desirable.outcome,
+    ##                                     clinical.threshold=0, 
+    ##                                     name.treatment=name.treatment,
+    ##                                     names.influencing.treatment=names.influencing.treatment,
+    ##                                     names.influencing.rule=names.influencing.rule,
+    ##                                     propensity.method=propensity.method,
+    ##                                     bootstrap.CI=bootstrap.CI)
+    return(list("evaluate.optimal.rule"=evaluate.optimal.rule$summaries["estimated.rule", ],
+                  "evaluate.treat.all"=evaluate.optimal.rule$summaries["treat.all", ],
+                   "evaluate.treat.none"=evaluate.optimal.rule$summaries["treat.none", ]))
 }
 
 Expit <- function(x) exp(x) / (1 + exp(x))
