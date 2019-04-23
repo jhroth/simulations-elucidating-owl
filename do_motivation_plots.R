@@ -2,6 +2,7 @@
 rm(list=ls())
 library(DevTreatRules)
 source("Functions/Motivation_OWL.R")
+Expit <- function(x) exp(x) / (1 + exp(x))
 
 set.seed(123)
 one.simple.simulation.propensity_0.67 <- SimulateSimpleData(n=500, p.informative=1, p.noisy=5, prop.on.treatment=0.67)
@@ -72,6 +73,7 @@ plot(sort(biomarker[treatment==1]) + 1, sort(survival.time.qualitative[treatment
 points(sort(biomarker[treatment==0]) + 1, sort(survival.time.qualitative[treatment==0]), type="l",lwd=5, lty="dashed", col="DarkOrange", cex.lab=2.5, cex.axis=2)
 axis(2, at=seq(from=5, to=15, by=2), labels=as.character(seq(from=0, to=1, by=0.2)), cex.lab=2.5, cex.axis=2)
 dev.off()
+
 png("Plots/hypothetical_noncrossing.png")
 par(mar=c(6, 5, 4, 2))
 plot(sort(biomarker[treatment==1]) + 1, sort(survival.time.non.crossing[treatment==1]), type="l", lwd=5, lty="solid", col="blue",

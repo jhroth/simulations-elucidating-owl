@@ -68,6 +68,7 @@ for (i in 1:length(n.training.vec.noise.added.continuous.tuning.OWL)) {
     write.csv(one.simulation.set$mat.counts, file=paste0(results.dir, "noise.added.continuous.tuning.OWL_counts_n_reps_", n.reps.noise.added.continuous.tuning.OWL, "_n_training_", one.n.training, "_", Sys.Date(), ".csv"))
 }
 rownames(mat.ABR) <- names(one.simulation.set$mat.means[, "exact.ABR"])
+    
 png(file=paste0(plots.dir, "noise.added.continuous.tuning.OWL_mean_ABR_n_reps_", n.reps.noise.added.continuous.tuning.OWL, "_shift_", my.shift.continuous, "_", Sys.Date(), ".png"))
 PlotMeanSummary(mat.ABR[c("OWL.framework", "split.regression", "optimal.rule"), ], my.title="")
 dev.off()
